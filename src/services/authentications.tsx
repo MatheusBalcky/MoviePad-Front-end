@@ -21,3 +21,9 @@ export async function signIn(signInData: signInData) {
   const promise = axios.post(urlApi, signInData);
   return promise;
 }
+
+export async function tokenVerify(token: string) {
+  const urlApi = `${import.meta.env.VITE_API_URL}/verifyToken`;
+  const promise = axios.post(urlApi, '',{ headers: { Authorization: `Bearer ${token}`}});
+  return promise;
+}
