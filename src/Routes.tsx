@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import SignIn from './pages/signIn';
-import SignUp from './pages/signUp';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 import userDataContext from './contexts/userDataContext';
 
 export default function AppRoutes() {

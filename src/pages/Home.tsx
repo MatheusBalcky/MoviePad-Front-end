@@ -11,15 +11,13 @@ export default function Home() {
   const tokenLocal = localStorage.getItem('tokenMoviePad');
 
   useEffect(() => {
-    if (!tokenLocal) {
-      return navigate('/signin');
-    }
+    if (!tokenLocal) return navigate('/signin');
+    
     tokenVerify(tokenLocal)
-      .then( res => {
-        setUserData({ ...res.data });
+      .then((res) => {
+        setUserData(res.data);
       })
       .catch((err: AxiosError) => {
-        console.log(err)
         localStorage.removeItem('tokenMoviePad');
         return navigate('/signin');
       });
