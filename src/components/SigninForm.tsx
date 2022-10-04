@@ -2,12 +2,14 @@ import * as schemas from '../schemas/authSchemas';
 import styled from 'styled-components';
 import * as apiAuth from '../services/authentications';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import userDataContext from '../contexts/userDataContext';
 
 export default function SignInForm() {
   const [errorMessage, setErrorMessage] = useState('');
+  const { userData, setUserData } = useContext(userDataContext);
   const navigate = useNavigate();
   const {
     values,
@@ -26,21 +28,21 @@ export default function SignInForm() {
     onSubmit: signInFunc,
   });
 
-  console.log(errors)
-
   function signInFunc(values: apiAuth.signInData, actions: any) {
     apiAuth
-      .signIn(values)
-      .then((res: AxiosResponse) => {
-        navigate('/home');
-      })
-      .catch((error: AxiosError) => {
-        if (error.response?.status === 401)
-          setErrorMessage('Email or password invalid');
-        if (error.response?.status === 422)
-          setErrorMessage('You need to use a valid email!');
-        actions.setSubmitting(false);
-      });
+    .signIn(values)
+    .then((res: AxiosResponse) => {
+      localStorage.setItem('tokenMoviePad', res.data.token);
+      setUserData(res.data);
+      navigate('/home');
+    })
+    .catch((error: AxiosError) => {
+      if (error.response?.status === 401)
+        setErrorMessage('Email or password invalid');
+      if (error.response?.status === 422)
+        setErrorMessage('You need to use a valid email!');
+      actions.setSubmitting(false);
+    });
   }
 
   return (
