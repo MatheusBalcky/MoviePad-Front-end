@@ -24,9 +24,16 @@ export default function Home() {
       });
   }, []);
 
+  function goToCreateList() {
+    navigate('/createlist');
+  }
+
   return (
     <>
-      <HeaderMenu page="home"/>
+      <HeaderMenu
+        page="home"
+        menuOptions={<li onClick={goToCreateList}>Add new list</li>}
+      />
       <HomeFeed />
     </>
   );
