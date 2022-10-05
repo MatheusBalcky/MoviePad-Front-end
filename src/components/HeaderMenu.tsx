@@ -2,9 +2,17 @@ import styled from 'styled-components';
 import logoMoviePad from '../assets/LOGO.svg';
 import { IoArrowBack, IoEllipsisVertical } from 'react-icons/io5';
 import Sidebar from './Sidebar';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function HeaderMenu(props: any) {
+interface IHeaderMenuProps {
+  page?: String;
+  menuOptions?: ReactElement
+  backbutton?: String
+}
+
+export default function HeaderMenu(props: IHeaderMenuProps) {
+  const navigate: any = useNavigate();
   const [statusSidebar, setSidebar] = useState(true);
   const styleIconArrow = {
     color: 'black',
@@ -18,12 +26,8 @@ export default function HeaderMenu(props: any) {
     cursor: 'pointer',
   };
 
-  function openMenu (){
+  function openMenu() {
     setSidebar(!statusSidebar);
-  }
-
-  function openCreateListPage() {
-    console.log('indo para página de criação');
   }
 
   return (
@@ -32,13 +36,16 @@ export default function HeaderMenu(props: any) {
         <ComponentsHeader>
           <ImgMoviePad src={logoMoviePad} />
           <ComponentsRight>
-            <IoArrowBack style={styleIconArrow} />
+            <IoArrowBack
+              onClick={() => navigate(props.backbutton)}
+              style={styleIconArrow}
+            />
             <IoEllipsisVertical style={styleIconElipsis} onClick={openMenu} />
           </ComponentsRight>
         </ComponentsHeader>
       </Background>
       <Sidebar
-        menuOptions={<li onClick={openCreateListPage}>Add new list</li>}
+        menuOptions={props.menuOptions}
         stateBar={[statusSidebar, setSidebar]}
       ></Sidebar>
     </>

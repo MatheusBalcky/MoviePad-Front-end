@@ -1,27 +1,47 @@
 import styled from 'styled-components';
 import { BoxList } from './BoxList';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import * as listsService from '../services/lists';
 
-const lists: any[] = [1];
+interface IlistObject {
+  id: number;
+  userId: number;
+  title: string;
+  iconList?: string;
+  createdAt: string;
+  amount: number;
+}
 
 export default function HomeFeed() {
-  function openCreateListPage() {
-    console.log('indo para página de criação');
-  }
+  const navigate: any = useNavigate();
+  const tokenLocal = localStorage.getItem('tokenMoviePad');
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    const promise = listsService.getLists(tokenLocal!);
+    promise
+      .then((res) => {
+        setLists(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <Background>
       <Content>
         {lists.length === 0 ? (
-          <Button onClick={openCreateListPage}>New list</Button>
+          <Button onClick={() => navigate('/createlist')}>New list</Button>
         ) : (
-          lists.map((item, index) => {
+          lists.map((item: IlistObject, index) => {
             return (
               <Link key={index} to={`/list/${index}`}>
                 <BoxList
-                  iconList="🍉"
-                  moviesAmount="58"
-                  titleList="Movies When Don't"
+                  iconList={item.iconList}
+                  moviesAmount={item.amount}
+                  titleList={item.title}
                 />
               </Link>
             );
@@ -60,7 +80,6 @@ const Button = styled.button`
   width: 120px;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.293);
   font-weight: bold;
-  font-family: 'Roboto', sans-serif;
   font-size: 1em;
   animation: float 2s infinite;
   @keyframes float {

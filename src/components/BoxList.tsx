@@ -44,11 +44,7 @@ const Background = styled.div`
 const IconsTop = styled.div`
   display: flex;
   justify-content: space-between;
-  span {
-    font-family: 'Roboto', sans-serif;
-  }
   p {
-    font-family: 'Roboto', sans-serif;
     filter: opacity(50%);
   }
 `;
@@ -56,8 +52,8 @@ const IconsTop = styled.div`
 const TitleList = styled.h2`
   color: black;
   font-weight: bold;
-  font-family: 'Roboto', sans-serif;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.8em;
 `;
