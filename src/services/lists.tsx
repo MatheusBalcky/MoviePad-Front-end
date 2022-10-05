@@ -9,3 +9,10 @@ export async function getLists(token: string) {
 
   return promise
 }
+
+export async function createList(token: string, listData: any) {
+  const bodyToken = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  return axios.post(`${urlApi}/lists/create`, listData, bodyToken);
+}

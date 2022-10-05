@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import userDataContext from './contexts/userDataContext';
+import CreateList from './pages/CreateList';
 
 export default function AppRoutes() {
   const [userData, setUserData] = useState();
@@ -15,6 +16,7 @@ export default function AppRoutes() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/createlist" element={<CreateList />} />
         </Routes>
       </Router>
     </userDataContext.Provider>
