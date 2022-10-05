@@ -1,20 +1,21 @@
-import Header from '../components/Header';
+import HeaderMenu from '../components/HeaderMenu';
 import userDataContext from '../contexts/userDataContext';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError, AxiosResponse } from 'axios';
 import { tokenVerify } from '../services/authentications';
+import HomeFeed from '../components/HomeFeed';
 
 export default function Home() {
-  const { userData, setUserData } = useContext(userDataContext);
+  const { setUserData } = useContext(userDataContext);
   const navigate = useNavigate();
   const tokenLocal = localStorage.getItem('tokenMoviePad');
 
   useEffect(() => {
     if (!tokenLocal) return navigate('/signin');
-    
+
     tokenVerify(tokenLocal)
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         setUserData(res.data);
       })
       .catch((err: AxiosError) => {
@@ -25,8 +26,8 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <h1>PÁGINA HOME</h1>
+      <HeaderMenu page="home"/>
+      <HomeFeed />
     </>
   );
 }
