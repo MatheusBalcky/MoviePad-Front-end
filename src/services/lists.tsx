@@ -16,3 +16,11 @@ export async function createList(token: string, listData: any) {
   };
   return axios.post(`${urlApi}/lists/create`, listData, bodyToken);
 }
+
+export async function getOneListAndContents(token: string, listId: number) {
+  const promise = axios.get(`${urlApi}/lists/${listId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return promise;
+}
