@@ -8,7 +8,7 @@ interface IlistObject {
   id: number;
   userId: number;
   title: string;
-  iconList?: string;
+  iconList: string;
   createdAt: string;
   amount: number;
 }
@@ -37,7 +37,7 @@ export default function HomeFeed() {
         ) : (
           lists.map((item: IlistObject, index) => {
             return (
-              <Link key={index} to={`/list/${index}`}>
+              <Link key={index} to={`/lists/${item.id}`}>
                 <BoxList
                   iconList={item.iconList}
                   moviesAmount={item.amount}

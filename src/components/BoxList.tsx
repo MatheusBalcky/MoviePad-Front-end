@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 
-export function BoxList(props: any) {
+interface IBoxList {
+  iconList: string;
+  moviesAmount: number;
+  titleList: string;
+}
+
+export function BoxList(props: IBoxList) {
+  const { iconList, moviesAmount, titleList } = props;
+
   return (
     <Background>
       <IconsTop>
-        <span>{props.iconList}</span>
-        <p>{props.moviesAmount}</p>
+        <span>{iconList.length === 0 ? '📺' : iconList}</span>
+        <p>{moviesAmount}</p>
       </IconsTop>
-      <TitleList>{props.titleList}</TitleList>
+      <TitleList>{titleList}</TitleList>
     </Background>
   );
 }
@@ -43,6 +51,7 @@ const Background = styled.div`
 
 const IconsTop = styled.div`
   display: flex;
+  height: 25px;
   justify-content: space-between;
   p {
     filter: opacity(50%);
