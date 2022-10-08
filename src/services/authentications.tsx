@@ -9,19 +9,20 @@ export type signInData = Omit<signUpData, 'passwordConfirm'>;
 
 const urlApi = import.meta.env.VITE_API_URL;
 
+export function headersToken(token: string) {
+  return {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+}
+
 export async function signUp(signUpData: signUpData) {
-  const promise = axios.post(`${urlApi}/signup`, signUpData);
-  return promise;
+  return axios.post(`${urlApi}/signup`, signUpData);
 }
 
 export async function signIn(signInData: signInData) {
-  const promise = axios.post(`${urlApi}/signin`, signInData);
-  return promise;
+  return axios.post(`${urlApi}/signin`, signInData);
 }
 
 export async function tokenVerify(token: string) {
-  const promise = axios.post(`${urlApi}/verifyToken`, '', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return promise;
+  return axios.post(`${urlApi}/verifyToken`, '', headersToken(token));
 }
