@@ -29,3 +29,10 @@ export async function addNewContent(
     headersToken(token)
   );
 }
+
+export async function getOneContentFromAList(token: string, contentId: number) {
+  return axios.get(
+    `${urlApi}/contentFromAList/${contentId}`,
+    headersToken(token)
+  );
+}
