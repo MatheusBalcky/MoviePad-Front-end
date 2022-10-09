@@ -73,6 +73,10 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    button:disabled{
+      filter: opacity(30%);
+      cursor: default;
+    }
   }
   button {
     background: none;

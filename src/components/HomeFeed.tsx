@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { BoxList } from './BoxList';
-import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import * as listsService from '../services/lists';
+import { ReactElement } from 'react';
 
+interface IHomeFeed {
+  lists: any[];
+}
 interface IlistObject {
   id: number;
   userId: number;
@@ -13,40 +15,31 @@ interface IlistObject {
   amount: number;
 }
 
-export default function HomeFeed() {
+export default function HomeFeed(props: IHomeFeed) {
   const navigate: any = useNavigate();
-  const tokenLocal = localStorage.getItem('tokenMoviePad');
-  const [lists, setLists] = useState([]);
+  const { lists } = props;
 
-  useEffect(() => {
-    const promise = listsService.getLists(tokenLocal!);
-    promise
-      .then((res) => {
-        setLists(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  function RenderLists(): any {
+    if (lists.length === 0)
+      return (<Button onClick={() => navigate('/createlist')}>New list</Button>);
+
+    return lists.map((item: IlistObject, index) => {
+      return (
+        <Link key={index} to={`/lists/${item.id}`}>
+          <BoxList
+            iconList={item.iconList}
+            moviesAmount={item.amount}
+            titleList={item.title}
+          />
+        </Link>
+      );
+    });
+  }
 
   return (
     <Background>
       <Content>
-        {lists.length === 0 ? (
-          <Button onClick={() => navigate('/createlist')}>New list</Button>
-        ) : (
-          lists.map((item: IlistObject, index) => {
-            return (
-              <Link key={index} to={`/lists/${item.id}`}>
-                <BoxList
-                  iconList={item.iconList}
-                  moviesAmount={item.amount}
-                  titleList={item.title}
-                />
-              </Link>
-            );
-          })
-        )}
+        <RenderLists />
       </Content>
     </Background>
   );

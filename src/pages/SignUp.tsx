@@ -1,20 +1,14 @@
 import styled from 'styled-components';
 import Header from '../components/Header';
 import BoxAuth from '../components/BoxAuth';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SignUpForm from '../components/SignupForm';
-import { useEffect } from 'react';
+import VerifyTokenComponent from '../components/VerifyToken';
 
 export default function SignUp() {
-    const navigate = useNavigate();
-
-    useEffect(() => {
-      const token = localStorage.getItem('tokenMoviePad');
-      if (token) return navigate('/home');
-    }, []);
-
   return (
     <Background>
+      <VerifyTokenComponent route="/home" />
       <Header />
       <BackgroundAuth>
         <BoxAuth>

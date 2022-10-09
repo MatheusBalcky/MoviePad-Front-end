@@ -13,8 +13,8 @@ export default function CreateList() {
 
   function createListFunc(e: any) {
     e.preventDefault();
-    const promise = listsService.createList(tokenLocal!, { title, iconList });
-    promise
+    listsService
+      .createList(tokenLocal!, { title, iconList })
       .then((resp) => {
         alert('List created with success!');
         setTitle('');

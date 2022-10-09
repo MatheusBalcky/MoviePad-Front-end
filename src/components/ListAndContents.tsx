@@ -1,62 +1,59 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import * as listsService from '../services/lists';
+import { useState } from 'react';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { AddContentSearch } from './AddContentSearch';
 
 interface IListAndContents {
-  listId: number;
   token: string;
+  listData: any;
+  setRenderList: Function;
 }
 
 export default function ListAndContents(props: IListAndContents) {
-  const { listId, token } = props;
-  const [listData, setListData] = useState<any>();
+  const { token, listData, setRenderList } = props;
   const [searchBarHidden, setSearchBarHidden] = useState(true);
-  const [renderList, setRenderList] = useState(0);
-
-  useEffect(() => {
-    listsService
-      .getOneListAndContents(token, listId)
-      .then((res) => {
-        setListData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [renderList]);
 
   return (
     <Background>
-      {listData !== undefined ? (
-        <>
-          <ContentList
-            openSearch={() => setSearchBarHidden(!searchBarHidden)}
-            listData={listData}
-          />
-          <AddContentSearch
-            token={token}
-            renderList={setRenderList}
-            listId={listData.listId}
-            hiddenFunc={setSearchBarHidden}
-            hidden={searchBarHidden}
-          />
-        </>
-      ) : (
-        'Loading...'
-      )}
+      <ListAndItsContents
+        openSearch={() => setSearchBarHidden(!searchBarHidden)}
+        listData={listData}
+      />
+      <AddContentSearch
+        token={token}
+        renderList={setRenderList}
+        listId={listData.listId}
+        hiddenFunc={setSearchBarHidden}
+        hidden={searchBarHidden}
+      />
     </Background>
   );
 }
 
-function ContentList(props: any) {
-  if (props.listData.length === 0) {
-    return <h1>List not found!</h1>;
-  }
-  const { openSearch } = props;
-  const { listId, iconList, listTitle, contents } = props.listData;
+function ListAndItsContents(props: any) {
+  const { openSearch, listData } = props;
+  const { listId, iconList, listTitle, contents } = listData;
+
+  if (listData.length === 0) return <h1>List not found!</h1>;
+
   const styledPlustButton = { fontSize: '3em' };
+
+  function Contents() {
+    return contents.map((item: any, index: number) => {
+      return (
+        <Link
+          key={index}
+          to={`/lists/${listId}/content/${item.contentIdAtContents}`}
+        >
+          <BoxContent>
+            <ImgContent itemProp={item.contentImgUrl} />
+            <h1>{item.contentTitle}</h1>
+          </BoxContent>
+        </Link>
+      );
+    });
+  }
 
   return (
     <Content>
@@ -71,19 +68,7 @@ function ContentList(props: any) {
           <h1>Add new content</h1>
         </BoxContent>
 
-        {contents.map((item: any, index: number) => {
-          return (
-            <Link
-              key={index}
-              to={`/lists/${listId}/content/${item.contentIdAtContents}`}
-            >
-              <BoxContent>
-                <ImgContent itemProp={item.contentImgUrl} />
-                <h1>{item.contentTitle}</h1>
-              </BoxContent>
-            </Link>
-          );
-        })}
+        <Contents />
       </ListContent>
     </Content>
   );
