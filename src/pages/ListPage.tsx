@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HeaderMenu from '../components/HeaderMenu';
 import ListAndContents from '../components/ListAndContents';
 import Modal from '../components/Modal';
+import VerifyTokenComponent from '../components/VerifyToken';
 import * as listsService from '../services/lists';
 
 export default function ListPage() {
@@ -34,6 +35,7 @@ export default function ListPage() {
 
   return (
     <>
+      <VerifyTokenComponent />
       <HeaderMenu
         page="list"
         backbutton={'/home'}

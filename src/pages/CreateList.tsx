@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import * as listsService from '../services/lists';
 import { useState } from 'react';
+import VerifyTokenComponent from '../components/VerifyToken';
 
 export default function CreateList() {
   const checkStyle = { fontSize: '2.5em' };
@@ -26,6 +27,7 @@ export default function CreateList() {
 
   return (
     <>
+      <VerifyTokenComponent />
       <HeaderMenu backbutton="/home" page="createList" />
       <Background>
         <Container>
