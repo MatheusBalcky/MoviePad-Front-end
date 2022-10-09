@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import * as listsService from '../services/lists';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { AddContentSearch } from './AddContentSearch';
 
 interface IListAndContents {
   listId: number;
@@ -11,7 +12,9 @@ interface IListAndContents {
 
 export default function ListAndContents(props: IListAndContents) {
   const { listId, token } = props;
-  const [listData, setListData] = useState<any[]>([]);
+  const [listData, setListData] = useState<any>();
+  const [searchBarHidden, setSearchBarHidden] = useState(true);
+  const [renderList, setRenderList] = useState(0);
 
   useEffect(() => {
     listsService
@@ -22,40 +25,57 @@ export default function ListAndContents(props: IListAndContents) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [renderList]);
 
   return (
     <Background>
-      <ContentList listData={listData} />
+      {listData !== undefined ? (
+        <>
+          <ContentList
+            openSearch={() => setSearchBarHidden(!searchBarHidden)}
+            listData={listData}
+          />
+          <AddContentSearch
+            token={token}
+            renderList={setRenderList}
+            listId={listData.listId}
+            hiddenFunc={setSearchBarHidden}
+            hidden={searchBarHidden}
+          />
+        </>
+      ) : (
+        'Loading...'
+      )}
     </Background>
   );
 }
 
 function ContentList(props: any) {
-  if (props.listData.length === 0) return <h1>List not found!</h1>;
-  const listData = props.listData;
+  if (props.listData.length === 0) {
+    return <h1>List not found!</h1>;
+  }
+  const { openSearch } = props;
+  const { listId, iconList, listTitle, contents } = props.listData;
   const styledPlustButton = { fontSize: '3em' };
 
   return (
     <Content>
-      <header>
-        <span>{listData.iconList}</span>
-        <TitleList>{listData.listTitle}</TitleList>
-      </header>
+      <Header>
+        <span>{iconList}</span>
+        <h2>{listTitle}</h2>
+      </Header>
 
       <ListContent>
-        <Link to={`/lists/${listData.listId}/add-content`}>
-          <BoxContent>
-            <IoAddCircleOutline style={styledPlustButton} />
-            <h1>Add new content</h1>
-          </BoxContent>
-        </Link>
+        <BoxContent onClick={openSearch}>
+          <IoAddCircleOutline style={styledPlustButton} />
+          <h1>Add new content</h1>
+        </BoxContent>
 
-        {listData.contents.map((item: any) => {
+        {contents.map((item: any, index: number) => {
           return (
             <Link
-              key={item.contentIdAtContents}
-              to={`/lists/${listData.listId}/content/${item.contentIdAtContents}`}
+              key={index}
+              to={`/lists/${listId}/content/${item.contentIdAtContents}`}
             >
               <BoxContent>
                 <ImgContent itemProp={item.contentImgUrl} />
@@ -85,17 +105,6 @@ const Content = styled.div`
   padding: 5px;
   margin: 5px;
   gap: 7px;
-  header {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    font-weight: bold;
-    gap: 5px;
-  }
-`;
-
-const TitleList = styled.h2`
-  font-size: 1.6em;
 `;
 
 const ListContent = styled.div`
@@ -152,4 +161,13 @@ const ImgContent = styled.div`
   background: ${(props) => (props.itemProp ? `url(${props.itemProp})` : '')};
   background-position: center;
   background-size: cover;
+`;
+
+const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-weight: bold;
+  gap: 5px;
+  font-size: 1.6em;
 `;

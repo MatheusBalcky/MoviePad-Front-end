@@ -21,7 +21,7 @@ export async function deleteList(token: string, listId: number) {
 export async function addNewContent(
   token: string,
   listId: number,
-  content: object
+  content: any
 ) {
   return axios.post(
     `${urlApi}/lists/${listId}/addcontent`,
