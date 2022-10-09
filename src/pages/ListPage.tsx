@@ -57,6 +57,35 @@ export default function ListPage() {
       });
   }
 
+  function RenderList() {
+    if (loadList && listData !== undefined) {
+      return (
+        <ListAndContents
+          token={token!}
+          listData={listData}
+          setRenderList={setRenderList}
+        />
+      );
+    } else if (loadList && listData === undefined) {
+      return (
+        <CenterDiv>
+          <h1>List not found!</h1>
+        </CenterDiv>
+      );
+    }
+    return (
+      <CenterDiv>
+        <TailSpin
+          height="80"
+          width="80"
+          color="#F7C84F"
+          radius="1"
+          visible={true}
+        />
+      </CenterDiv>
+    );
+  }
+
   return (
     <>
       <VerifyTokenComponent />
@@ -70,12 +99,7 @@ export default function ListPage() {
         }
       ></HeaderMenu>
 
-      <RenderList
-        setRenderList={setRenderList}
-        token={token!}
-        listData={listData}
-        loadList={loadList}
-      />
+      <RenderList/>
 
       <Modal
         yesFunction={removeListFunc}
@@ -86,36 +110,7 @@ export default function ListPage() {
   );
 }
 
-function RenderList(props: any) {
-  const { loadList, listData, token, setRenderList } = props;
 
-  if (loadList && listData !== undefined) {
-    return (
-      <ListAndContents
-        token={token!}
-        listData={listData}
-        setRenderList={setRenderList}
-      />
-    );
-  } else if (loadList && listData === undefined) {
-    return (
-      <CenterDiv>
-        <h1>List not found!</h1>
-      </CenterDiv>
-    );
-  }
-  return (
-    <CenterDiv>
-      <TailSpin
-        height="80"
-        width="80"
-        color="#F7C84F"
-        radius="1"
-        visible={true}
-      />
-    </CenterDiv>
-  );
-}
 
 const CenterDiv = styled.div`
   box-sizing: border-box;

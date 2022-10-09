@@ -12,31 +12,8 @@ interface IListAndContents {
 
 export default function ListAndContents(props: IListAndContents) {
   const { token, listData, setRenderList } = props;
-  const [searchBarHidden, setSearchBarHidden] = useState(true);
-
-  return (
-    <Background>
-      <ListAndItsContents
-        openSearch={() => setSearchBarHidden(!searchBarHidden)}
-        listData={listData}
-      />
-      <AddContentSearch
-        token={token}
-        renderList={setRenderList}
-        listId={listData.listId}
-        hiddenFunc={setSearchBarHidden}
-        hidden={searchBarHidden}
-      />
-    </Background>
-  );
-}
-
-function ListAndItsContents(props: any) {
-  const { openSearch, listData } = props;
   const { listId, iconList, listTitle, contents } = listData;
-
-  if (listData.length === 0) return <h1>List not found!</h1>;
-
+  const [searchBarHidden, setSearchBarHidden] = useState(true);
   const styledPlustButton = { fontSize: '3em' };
 
   function Contents() {
@@ -56,21 +33,34 @@ function ListAndItsContents(props: any) {
   }
 
   return (
-    <Content>
-      <Header>
-        <span>{iconList}</span>
-        <h2>{listTitle}</h2>
-      </Header>
+    <Background>
 
-      <ListContent>
-        <BoxContent onClick={openSearch}>
-          <IoAddCircleOutline style={styledPlustButton} />
-          <h1>Add new content</h1>
-        </BoxContent>
+      <Content>
+        <Header>
+          <span>{iconList}</span>
+          <h2>{listTitle}</h2>
+        </Header>
 
-        <Contents />
-      </ListContent>
-    </Content>
+        <ListContent>
+          <BoxContent onClick={() => setSearchBarHidden(!searchBarHidden)}>
+            <IoAddCircleOutline style={styledPlustButton} />
+            <h1>Add new content</h1>
+          </BoxContent>
+
+          <Contents />
+
+        </ListContent>
+      </Content>
+
+      <AddContentSearch
+        token={token}
+        renderList={setRenderList}
+        listId={listData.listId}
+        hiddenFunc={setSearchBarHidden}
+        hidden={searchBarHidden}
+      />
+
+    </Background>
   );
 }
 
