@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { useState } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SignUpForm() {
   const [errorMessage, setErrorMessage] = useState('');
@@ -31,6 +32,17 @@ export default function SignUpForm() {
     apiAuth
       .signUp(values)
       .then((res: AxiosResponse) => {
+        toast('Account created!', {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'success',
+        });
         navigate('/signin');
       })
       .catch((error: AxiosError) => {

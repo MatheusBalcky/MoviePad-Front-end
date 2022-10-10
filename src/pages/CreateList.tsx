@@ -4,24 +4,46 @@ import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import * as listsService from '../services/lists';
 import { useState } from 'react';
 import VerifyTokenComponent from '../components/VerifyToken';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateList() {
   const checkStyle = { fontSize: '2.5em' };
   const tokenLocal = localStorage.getItem('tokenMoviePad');
   const [title, setTitle] = useState('');
   const [iconList, setIconList] = useState('');
+  const navigate = useNavigate();
 
   function createListFunc(e: any) {
     e.preventDefault();
     listsService
       .createList(tokenLocal!, { title, iconList })
       .then((resp) => {
-        alert('List created with success!');
-        setTitle('');
-        setIconList('');
+        toast('List created with success', {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'success',
+        });
+        navigate('/home');
       })
       .catch((err) => {
-        alert('Error on create new list');
+        toast('Error on create new list', {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'error',
+        });
       });
   }
 

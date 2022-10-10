@@ -7,9 +7,9 @@ import ListAndContents from '../components/ListAndContents';
 import VerifyTokenComponent from '../components/VerifyToken';
 import { TailSpin } from 'react-loader-spinner';
 import * as listsService from '../services/lists';
+import { toast } from 'react-toastify';
 
 export default function ListPage() {
-  let optionSideBar = <li onClick={openModal}>Remove this list</li>;
   const token = localStorage.getItem('tokenMoviePad');
   const navigate = useNavigate();
   const { listId } = useParams();
@@ -35,7 +35,17 @@ export default function ListPage() {
     listsService
       .deleteList(token!, Number(listId))
       .then((res) => {
-        alert('List removed!');
+        toast('List removed with success', {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'info',
+        });
         navigate('/home');
       })
       .catch((err) => {
@@ -99,7 +109,7 @@ export default function ListPage() {
         }
       ></HeaderMenu>
 
-      <RenderList/>
+      <RenderList />
 
       <Modal
         yesFunction={removeListFunc}
@@ -109,8 +119,6 @@ export default function ListPage() {
     </>
   );
 }
-
-
 
 const CenterDiv = styled.div`
   box-sizing: border-box;

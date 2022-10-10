@@ -30,7 +30,6 @@ export function AddContentSearch(props: IAddContentSearch) {
     if (search.length >= 3) {
       ApiTMDBService.searchContents(search, 1)
         .then((res) => {
-          console.log(res.data);
           setSearchResults(res.data);
         })
         .catch((err) => {

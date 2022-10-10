@@ -6,6 +6,7 @@ import VerifyTokenComponent from '../components/VerifyToken';
 import * as listsService from '../services/lists';
 import { CenterDiv } from './Home';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 export default function ContentPage() {
   const { contentId, listId } = useParams();
@@ -21,27 +22,46 @@ export default function ContentPage() {
     listsService
       .getOneContentFromAList(token!, Number(listId), Number(contentId))
       .then((res) => {
-        console.log(res);
         setContent(res.data);
         setLoadContent(true);
       })
       .catch(({ response }) => {
         setContent(response.status);
         setLoadContent(true);
-        setButtonsSideBarDisabled(true)
+        setButtonsSideBarDisabled(true);
       });
   }
 
   function removeContent() {
-    console.log('removing');
-    listsService.deleteOneContentFromAList(token!, Number(listId), Number(contentId))
-    .then( res =>{
-      alert('Content removed from list with success!')
-      navigate(`/lists/${listId}`);
-    })
-    .catch( err =>{
-      alert('Error while remove this content!')
-    })
+    listsService
+      .deleteOneContentFromAList(token!, Number(listId), Number(contentId))
+      .then((res) => {
+        toast('Content removed from list with success!', {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'info',
+        });
+        navigate(`/lists/${listId}`);
+      })
+      .catch((err) => {
+        toast('Error while remove this content!', {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'error',
+        });
+      });
   }
 
   function RenderContent() {
@@ -50,16 +70,16 @@ export default function ContentPage() {
         <Background>
           <Container>
             <Header>
-              <ContentImage itemProp={content.pictureUrl}/>
+              <ContentImage itemProp={content.pictureUrl} />
 
               <ContentTitleYear>
                 <h1>{content.title}</h1>
                 <span>{content.releaseYear.slice(0, 4)}</span>
               </ContentTitleYear>
             </Header>
-            <Description>
-              {content.description}
-            </Description>
+            <Description>{content.description}</Description>
+
+            <button onClick={removeContent}>Remove</button>
           </Container>
         </Background>
       );
@@ -113,11 +133,30 @@ const Container = styled.div`
   border-radius: 16px;
   width: 100%;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    cursor: pointer;
+    width: 150px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border-radius: 19px;
+    padding: 10px;
+    :hover {
+      filter: opacity(30%);
+    }
+  }
 `;
 
 const Header = styled.header`
   display: flex;
   height: 191px;
+  width: 100%;
 `;
 
 const ContentImage = styled.div`
@@ -137,11 +176,11 @@ const ContentTitleYear = styled.div`
   height: 100%;
   width: 100%;
   gap: 15px;
-  h1{
+  h1 {
     font-weight: bold;
     text-align: center;
   }
-  span{
+  span {
     font-weight: lighter;
     font-style: italic;
   }
@@ -153,4 +192,4 @@ const Description = styled.h2`
   padding: 20px;
   width: 100%;
   font-weight: lighter;
-`
+`;

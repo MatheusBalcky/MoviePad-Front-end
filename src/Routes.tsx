@@ -7,6 +7,8 @@ import userDataContext from './contexts/userDataContext';
 import CreateList from './pages/CreateList';
 import ListPage from './pages/ListPage';
 import ContentPage from './pages/ContentPage';
+import { ToastContainer } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css'; 
 
 export default function AppRoutes() {
   const [userData, setUserData] = useState();
@@ -14,6 +16,7 @@ export default function AppRoutes() {
   return (
     <userDataContext.Provider value={{ userData, setUserData }}>
       <Router>
+        <ToastContainer/>
         <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
