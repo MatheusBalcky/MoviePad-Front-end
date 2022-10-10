@@ -59,7 +59,7 @@ export default function Home() {
   );
 }
 
-const CenterDiv = styled.div`
+export const CenterDiv = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: center;

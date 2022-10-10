@@ -62,7 +62,7 @@ export function AddContentSearch(props: IAddContentSearch) {
         hiddenFunc(!hidden);
       })
       .catch((err) => {
-        alert('One occurred while adding new content');
+        alert(err.response.data);
       });
   }
 
