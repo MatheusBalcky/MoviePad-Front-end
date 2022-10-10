@@ -30,9 +30,16 @@ export async function addNewContent(
   );
 }
 
-export async function getOneContentFromAList(token: string, contentId: number) {
+export async function getOneContentFromAList(token: string, listId: number, contentId: number) {
   return axios.get(
-    `${urlApi}/contentFromAList/${contentId}`,
+    `${urlApi}/contentFromAList/${listId}/content/${contentId}`,
+    headersToken(token)
+  );
+}
+
+export async function deleteOneContentFromAList(token: string, listId: number, contentId: number) {
+  return axios.delete(
+    `${urlApi}/contentFromAList/${listId}/delete/${contentId}`,
     headersToken(token)
   );
 }

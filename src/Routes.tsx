@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import userDataContext from './contexts/userDataContext';
 import CreateList from './pages/CreateList';
 import ListPage from './pages/ListPage';
+import ContentPage from './pages/ContentPage';
 
 export default function AppRoutes() {
   const [userData, setUserData] = useState();
@@ -19,6 +20,7 @@ export default function AppRoutes() {
           <Route path="/home" element={<Home />} />
           <Route path="/createlist" element={<CreateList />} />
           <Route path='/lists/:listId' element={<ListPage />} />
+          <Route path='/lists/:listId/content/:contentId' element={<ContentPage />} />
         </Routes>
       </Router>
     </userDataContext.Provider>
