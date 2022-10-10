@@ -30,19 +30,19 @@ export default function SignInForm() {
 
   function signInFunc(values: apiAuth.signInData, actions: any) {
     apiAuth
-    .signIn(values)
-    .then((res: AxiosResponse) => {
-      localStorage.setItem('tokenMoviePad', res.data.token);
-      setUserData(res.data);
-      navigate('/home');
-    })
-    .catch((error: AxiosError) => {
-      if (error.response?.status === 401)
-        setErrorMessage('Email or password invalid');
-      if (error.response?.status === 422)
-        setErrorMessage('You need to use a valid email!');
-      actions.setSubmitting(false);
-    });
+      .signIn(values)
+      .then((res: AxiosResponse) => {
+        localStorage.setItem('tokenMoviePad', res.data.token);
+        setUserData(res.data);
+        navigate('/');
+      })
+      .catch((error: AxiosError) => {
+        if (error.response?.status === 401)
+          setErrorMessage('Email or password invalid');
+        if (error.response?.status === 422)
+          setErrorMessage('You need to use a valid email!');
+        actions.setSubmitting(false);
+      });
   }
 
   return (

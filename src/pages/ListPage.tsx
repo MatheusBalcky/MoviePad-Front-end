@@ -46,7 +46,7 @@ export default function ListPage() {
           theme: 'colored',
           type: 'info',
         });
-        navigate('/home');
+        navigate('/');
       })
       .catch((err) => {
         alert('Error on remove list!');
@@ -101,7 +101,7 @@ export default function ListPage() {
       <VerifyTokenComponent />
       <HeaderMenu
         page="list"
-        backbutton={'/home'}
+        backbutton={'/'}
         menuOptions={
           <button disabled={buttonsSideBarDisabled} onClick={openModal}>
             Remove this list

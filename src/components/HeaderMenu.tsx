@@ -18,7 +18,7 @@ export default function HeaderMenu(props: IHeaderMenuProps) {
     color: 'black',
     fontSize: '1.5em',
     cursor: 'pointer',
-    display: props.page === 'home' ? 'none' : 'inherit',
+    display: props.page === '/' ? 'none' : 'inherit',
   };
   const styleIconElipsis = {
     color: 'black',

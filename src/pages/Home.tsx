@@ -51,7 +51,7 @@ export default function Home() {
     <>
       <VerifyTokenComponent />
       <HeaderMenu
-        page="home"
+        page="/"
         menuOptions={<li onClick={goToCreateList}>Add new list</li>}
       />
       <RenderFeedOfLists />

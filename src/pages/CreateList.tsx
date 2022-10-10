@@ -30,7 +30,7 @@ export default function CreateList() {
           theme: 'colored',
           type: 'success',
         });
-        navigate('/home');
+        navigate('/');
       })
       .catch((err) => {
         toast('Error on create new list', {
@@ -50,7 +50,7 @@ export default function CreateList() {
   return (
     <>
       <VerifyTokenComponent />
-      <HeaderMenu backbutton="/home" page="createList" />
+      <HeaderMenu backbutton="/" page="createList" />
       <Background>
         <Container>
           <Form onSubmit={(e) => createListFunc(e)}>

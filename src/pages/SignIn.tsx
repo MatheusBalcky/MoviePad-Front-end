@@ -9,7 +9,7 @@ export default function SignIn() {
 
   return (
     <Background>
-      <VerifyTokenComponent route="/home" />
+      <VerifyTokenComponent route="/" />
       <Header />
       <BackgroundAuth>
         <BoxAuth>

@@ -20,7 +20,7 @@ export default function AppRoutes() {
         <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/createlist" element={<CreateList />} />
           <Route path='/lists/:listId' element={<ListPage />} />
           <Route path='/lists/:listId/content/:contentId' element={<ContentPage />} />

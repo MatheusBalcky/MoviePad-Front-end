@@ -8,7 +8,7 @@ import VerifyTokenComponent from '../components/VerifyToken';
 export default function SignUp() {
   return (
     <Background>
-      <VerifyTokenComponent page="signup" route="/home" />
+      <VerifyTokenComponent page="signup" route="/" />
       <Header />
       <BackgroundAuth>
         <BoxAuth>
