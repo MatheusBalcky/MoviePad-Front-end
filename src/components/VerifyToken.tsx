@@ -2,23 +2,25 @@ import styled from 'styled-components';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useContext } from 'react';
-import { tokenVerify } from '../services/authentications';
+import { signUp, tokenVerify } from '../services/authentications';
 import userDataContext from '../contexts/userDataContext';
 
 interface IVerifyTokenComponent {
   route?: string;
+  page?: string;
 }
 
 export default function VerifyTokenComponent(props: IVerifyTokenComponent) {
-  const { route } = props;
+  const { route, page } = props;
   const tokenLocal = localStorage.getItem('tokenMoviePad');
   const navigate = useNavigate();
   const { setUserData } = useContext(userDataContext);
 
   useEffect(() => {
+    if (!tokenLocal && page === 'signup') return;
     if (!tokenLocal) return navigate('/signin');
 
-    tokenVerify(tokenLocal)
+    tokenVerify(tokenLocal!)
       .then((res: AxiosResponse) => {
         setUserData(res.data);
         localStorage.setItem('tokenMoviePad', res.data.token);
