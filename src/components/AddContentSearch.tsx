@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import * as ApiTMDBService from '../services/searchContentApi';
 import * as listsService from '../services/lists';
-
+import { toast } from 'react-toastify';
 interface IAddContentSearch {
   hidden: boolean;
   hiddenFunc: Function;
@@ -61,7 +61,17 @@ export function AddContentSearch(props: IAddContentSearch) {
         hiddenFunc(!hidden);
       })
       .catch((err) => {
-        alert(err.response.data);
+        toast(err.response.data, {
+          position: 'bottom-right',
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          type: 'info',
+        });
       });
   }
 
